@@ -8,10 +8,11 @@ edition = "2018"
 crate-type = ["dylib"]
 
 [dependencies]
-bdk = "0.5"
+bdk = "0.5.1"
 derive = { path = "./derive", features = ["debug"] }
 libc = { version = "0.2", optional = true}
 pyo3 = { version = "0.13", features = ["extension-module"], optional = true }
+robusta_jni = { version = "0.1", optional = true }
 
 [build-dependencies]
 cbindgen = { version = "0.17", optional = true }
@@ -19,6 +20,7 @@ cbindgen = { version = "0.17", optional = true }
 [features]
 c = ["libc", "cbindgen", "derive/c"]
 python = ["pyo3", "derive/python"]
+java = ["robusta_jni", "derive/java"]
 
 # [workspace]
 # members = ["derive"]

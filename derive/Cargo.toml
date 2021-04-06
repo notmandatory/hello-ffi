@@ -18,3 +18,4 @@ quote = "1.0"
 debug = ["syn/extra-traits"]
 c = []
 python = []
+java = []

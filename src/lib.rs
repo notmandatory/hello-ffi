@@ -4,12 +4,14 @@ pub mod mapping;
 #[macro_use]
 pub mod langs;
 
-#[cfg(not(any(feature = "c", feature = "python")))]
+#[cfg(not(any(feature = "c", feature = "python", feature = "java")))]
 compile_error!("No language enabled");
 
-#[cfg(all(feature = "c", any(feature = "python")))]
+#[cfg(all(feature = "c", any(feature = "python", feature = "java")))]
 compile_error!("Enable at most one language");
-#[cfg(all(feature = "python", any(feature = "c")))]
+#[cfg(all(feature = "python", any(feature = "c", feature = "java")))]
+compile_error!("Enable at most one language");
+#[cfg(all(feature = "java", any(feature = "c", feature = "python")))]
 compile_error!("Enable at most one language");
 
 #[macro_use]
@@ -35,52 +37,58 @@ mod common;
 
 #[expose_mod]
 mod test_mod {
-    #[expose_struct]
-    struct Inner {
-        val: u32,
+    #[expose_fn]
+    fn simple_fn(val: u32) -> u32 {
+        val *2
     }
-    impl Clone for Inner {
-        fn clone(&self) -> Self {
-            Inner { val: self.val }
-        }
-    }
-
-    #[expose_impl]
-    impl Inner {
-        #[constructor]
-        fn new(val: u32) -> Self {
-            Inner { val }
-        }
-
-        #[cfg(feature = "python")]
-        #[getter]
-        fn get_val(&self) -> u32 {
-            self.val
-        }
-        #[cfg(feature = "python")]
-        #[setter]
-        fn set_val(&mut self, val: u32) {
-            self.val = val;
-        }
-    }
-
-    #[expose_struct("opaque")]
-    struct Outer {
-        #[expose_struct(get, set)]
-        inner: Inner,
-        #[expose_struct(get_simple, set_simple)]
-        value: u32,
-    }
-
-    #[expose_impl]
-    impl Outer {
-        #[constructor]
-        fn new(inner: &Inner, value: u32) -> Self {
-            Outer { inner, value }
-        }
-        #[destructor]
-        fn destroy(_s: Self) {}
-    }
+}
+    
+//    #[expose_struct]
+//    struct Inner {
+//        val: u32,
+//    }
+//    impl Clone for Inner {
+//        fn clone(&self) -> Self {
+//            Inner { val: self.val }
+//        }
+//    }
+//
+//    #[expose_impl]
+//    impl Inner {
+//        #[constructor]
+//        fn new(val: u32) -> Self {
+//            Inner { val }
+//        }
+//
+//        #[cfg(feature = "python")]
+//        #[getter]
+//        fn get_val(&self) -> u32 {
+//            self.val
+//        }
+//        #[cfg(feature = "python")]
+//        #[setter]
+//        fn set_val(&mut self, val: u32) {
+//            self.val = val;
+//        }
+//    }
+//
+//    #[expose_struct("opaque")]
+//    struct Outer {
+//        #[expose_struct(get, set)]
+//        inner: Inner,
+//        #[expose_struct(get_simple, set_simple)]
+//        value: u32,
+//    }
+//
+//    #[expose_impl]
+//    impl Outer {
+//        #[constructor]
+//        fn new(inner: &Inner, value: u32) -> Self {
+//            Outer { inner, value }
+//        }
+//        #[destructor]
+//        fn destroy(_s: Self) {}
+//    }
     //     #[expose_struct("opaque")]
     //     struct ImplMyTrait {
     //         inner: super::ImplMyTrait,
@@ -113,4 +121,4 @@ mod test_mod {
     //         let ret = t.method("Hello from Rust".to_string());
     //         println!("Returned: {}", ret);
     //     }
-}
+//}

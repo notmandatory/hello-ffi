@@ -13,6 +13,7 @@ use syn::{
 
 use super::*;
 use crate::types::*;
+use syn::token::Token;
 
 #[derive(Debug)]
 pub struct Python;
@@ -366,6 +367,7 @@ impl Lang for Python {
         structure: &Ident,
         field: &mut Field,
         _is_opaque: bool,
+        _is_simple: bool,
         impl_block: &mut ItemImpl,
     ) -> Result<(), Self::Error> {
         let old_ty = &field.ty;
@@ -386,6 +388,7 @@ impl Lang for Python {
         structure: &Ident,
         field: &mut Field,
         _is_opaque: bool,
+        _is_simple: bool,
         impl_block: &mut ItemImpl,
     ) -> Result<(), Self::Error> {
         let old_ty = &field.ty;

@@ -8,3 +8,9 @@ pub use c::*;
 pub mod python;
 #[cfg(feature = "python")]
 pub use python::*;
+
+#[cfg(feature = "java")]
+#[macro_use]
+pub mod java;
+#[cfg(feature = "java")]
+pub use java::*;

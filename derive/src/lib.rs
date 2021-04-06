@@ -15,11 +15,14 @@ mod types;
 
 use langs::Lang;
 use types::*;
+use syn::token::Token;
 
 #[cfg(feature = "c")]
 type CurrentLang = langs::c::C;
 #[cfg(feature = "python")]
 type CurrentLang = langs::python::Python;
+#[cfg(feature = "java")]
+type CurrentLang = langs::java::Java;
 
 fn check_struct(s: &ItemStruct) {
     if !matches!(s.fields, Fields::Named(_)) {

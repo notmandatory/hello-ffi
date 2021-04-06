@@ -15,6 +15,7 @@ use syn::{
 
 use super::*;
 use crate::types::*;
+use syn::token::Token;
 
 #[derive(Debug)]
 pub struct C;

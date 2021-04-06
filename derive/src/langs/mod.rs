@@ -5,7 +5,7 @@ use proc_macro::TokenStream;
 use proc_macro2::TokenStream as TokenStream2;
 use syn::parse::{Parse, ParseStream};
 use syn::punctuated::Punctuated;
-use syn::token::Comma;
+use syn::token::{Comma, Token};
 use syn::{
     parse_quote, Field, Fields, FieldsNamed, FnArg, Ident, Item, ItemFn, ItemImpl, ItemMod,
     ItemStruct, ItemTrait, Lit, LitStr, ParenthesizedGenericArguments, Pat, PatIdent, PatType,
@@ -21,6 +21,8 @@ pub mod common_mapping;
 pub mod c;
 #[cfg(feature = "python")]
 pub mod python;
+#[cfg(feature = "java")]
+pub mod java;
 
 pub trait Lang {
     type Error: From<LangError> + std::error::Error;
